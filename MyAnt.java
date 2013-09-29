@@ -19,22 +19,56 @@ public class MyAnt extends Ant
     private int sugarDistance = 700;
     private int spiderDistance = 100;
     private int spiderDistance2 = 700;
+    private int changeDistance = 250;
+    
+    private boolean isLurer = false;
+    
+    private static final int maxLurers = 8;
+    private static int numLurers = 0;
 
     public MyAnt()
     {
         super();
-        if(Greenfoot.getRandomNumber(100) <= 25)
+        /*if(Greenfoot.getRandomNumber(100) <= 25)
         {
-            sugarFactor = -50;
-            spiderFactor = 150;
-            spiderFactor2 = 150;
-            sugarDistance = 700;
-            spiderDistance = 25;
-            spiderDistance2 = 50;
-            antDistance = 10;
-            wallDistance = spiderDistance*3;
-            wallFactor = wallFactor*2;
-        }
+            setLurer();
+        }*/
+    }
+    
+    private void setWorker()
+    {
+        if(isLurer)
+            MyAnt.numLurers--;
+        
+        sugarFactor = 20;
+        spiderFactor = 100;
+        spiderFactor2 = 0;
+        sugarDistance = 700;
+        spiderDistance = 100;
+        spiderDistance2 = 700;
+        antDistance = 8;
+        wallDistance = 10;
+        wallFactor = 1000;
+        
+        isLurer = false;
+    }
+    
+    private void setLurer()
+    {
+        if(!isLurer)
+            MyAnt.numLurers++;
+        
+        sugarFactor = -50;
+        spiderFactor = 150;
+        spiderFactor2 = 150;
+        sugarDistance = 700;
+        spiderDistance = 25;
+        spiderDistance2 = 50;
+        antDistance = 10;
+        wallDistance = spiderDistance*3;
+        wallFactor = 2000;
+        
+        isLurer = true;
     }
 
     /**
@@ -122,6 +156,13 @@ public class MyAnt extends Ant
             if(getDistanceToSpider(s) >= spiderDistance2)
             {
                 spiderV = spiderV.add(getDirectionToSpider(s).scale(spiderFactor2*getDistanceToSpider(s)));
+            }
+            if(getDistanceToSpider(s) <= changeDistance && MyAnt.numLurers <= MyAnt.maxLurers)
+            {
+                setLurer();
+            } else
+            {
+                setWorker();
             }
         }
         return spiderV.scale(spiderFactor2);
