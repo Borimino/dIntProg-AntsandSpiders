@@ -1,0 +1,21 @@
+#BlueJ class context
+comment0.target=Spider()
+comment1.target=void\ act()
+comment2.target=Vector\ getForces()
+comment2.text=\nGet\ forces\ effecting\ the\ spider.\nTheres\ only\ one\:\ ants.\n@return\ a\ vector\ that\ repersents\ the\ force\ effecting\ the\ spider.\n\n
+comment3.target=Vector\ chaseAnts()
+comment3.text=\nLook\ for\ all\ ants\ within\ a\ certain\ distance\ and\ chase\ them.\ \nAnts\ that\ a\ close\ are\ more\ important\ than\ distant\ ants.\n@return\ a\ Vector\ pointing\ towards\ the\ ants\n\n
+comment4.target=void\ eatAnts()
+comment4.text=\nLook\ for\ an\ ant\ close\ to\ the\ spider\ and\ eat\ it.\n\n
+comment5.params=distance
+comment5.target=List<Ant>\ getAnts(int)
+comment5.text=\nGet\ all\ ants\ with\ in\ a\ certain\ distance\n@param\ distance\ get\ all\ spiders\ within\ this\ distance.\n\n
+comment6.target=Vector\ avoidWall()
+comment6.text=\nAvoid\ moving\ into\ any\ of\ the\ walls.\nWalls\ that\ a\ close\ should\ be\ avoided\ more\ rapidly\ than\ walls\ far\ away.\n@return\ a\ vector\ that\ points\ away\ from\ the\ nearest\ walls.\n\n
+comment7.params=a
+comment7.target=double\ getDistanceToAnt(Ant)
+comment7.text=\nFind\ the\ distance\ to\ a\ Ant\n@param\ a\ Ant\ we\ want\ the\ distance\ to\n@return\ distance\ to\ Ant\ a\n\n
+comment8.params=a
+comment8.target=Vector\ getDirectionToAnt(Ant)
+comment8.text=\nGives\ a\ vector\ in\ the\ direction\ of\ Ant\ a.\n@param\ a\ Ant\ we\ want\ the\ direction\ to.\n@return\ a\ Vector\ in\ the\ direction\ of\ Ant\ a.\n\n
+numComments=9

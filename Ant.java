@@ -1,0 +1,151 @@
+import greenfoot.*; 
+import java.util.*;
+/**
+ * Class implementing the basic needs for an Ant. Implementing the method getForces() is enough to get a full functional Ant.
+ * The class can not be initialized, because it has been declared "abstract".
+ * 
+ * @author Jakob Funder
+ * @version 25/09/2008
+ */
+
+public abstract class Ant extends MovingActor
+{
+    /**
+     * Acting method for greenfoot.
+     * First we adjust the velocity using the forces that effect the ant,
+     * then we rotate the image of the ant towards the heading, 
+     * move the ant and finally check to see if there has been any collisions with other ants.
+     */
+    public final void act() {
+            super.act();
+            checkForCollisions();
+    }
+    
+    /**
+     * Check to see if there are any collisions with other ants , in this case we die.
+     * @return true if the ant has hit another ant.
+     */
+    private boolean checkForCollisions() {
+        if (getAnts(1).size() != 0 ) {
+            imDead();
+            return true;
+        }
+        else if (distanceToRightWall() <= 1  || distanceToLeftWall() <= 1 || distanceToBottomWall() <= 1 || distanceToTopWall() <= 1) {
+            imDead();
+            return true;
+        }
+        return false;   
+    }
+    /**
+     * Method that handles what happens when the ant dies.
+     * Removes itself from the world and adds a dead ant instread.
+     */
+    public final void imDead() {
+            getWorld().addObject(new DeadAnt(), getX(), getY());
+            getWorld().removeObject(this);
+    }
+      
+    /**
+     * Find all ants within a specific distance.
+     * @param distance the distance to look for ants in.
+     * @return a list of all ants within that distance.
+     */ 
+    public List<Ant> getAnts(int distance) {
+        return (List<Ant>) getObjectsInRange(distance, Ant.class);   
+    }   
+    
+    /**
+     * Find all sugar in a specific distance.
+     * @param distance the distance to look for sugar in.
+     * @return a list of all sugar in that distance.
+     */
+    
+    public List<Sugar> getSugar(int distance) {
+        return (List<Sugar>) getObjectsInRange(distance, Sugar.class);   
+    }
+ 
+    /**
+     * Find all spiders within a specific distance.
+     * @param distance the distance to look for sugar in.
+     * @return a list of all sugar within that distance.
+     */
+    
+    public List<Spider> getSpider(int distance) {
+        return (List<Spider>) getObjectsInRange(distance, Spider.class);   
+    }
+ 
+       
+    /**
+     * Find the distance to Ant a.
+     * @param a Ant we want the distance to.
+     * @return distance to Ant a.
+     */
+    public double getDistanceToAnt(Ant a) {
+        return Math.max(Math.sqrt(Math.pow(getX() - a.getX(), 2) + Math.pow(getY() - a.getY(), 2)),0.001); // avoid division by zero
+    }
+    
+    
+    /**
+     * Find the distance to Suger s.
+     * @param s Sugar we want the distance to.
+     * @return distance to Sugar s.
+     */
+    public double getDistanceToSugar(Sugar s) {
+        return Math.max(Math.sqrt(Math.pow(getX() - s.getX(), 2) + Math.pow(getY() - s.getY(), 2)),0.001); // avoid division by zero
+    }
+ 
+    
+    /**
+     * Find the distance to Spider s.
+     * @param s Spider we want the distance to.
+     * @return distance to Spider s.
+     */
+    public double getDistanceToSpider(Spider s) {
+        return Math.max(Math.sqrt(Math.pow(getX() - s.getX(), 2) + Math.pow(getY() - s.getY(), 2)),0.001); // avoid division by zero
+    }
+    
+    /**
+     * Gives a vector in the direction of Ant a.
+     * @param a Ant we want the direction to.
+     * @return a Vector in the direction of Ant a.
+     */
+   public Vector getDirectionToAnt(Ant a) {
+        return new Vector((a.getX() - getX())/(getDistanceToAnt(a)) ,(a.getY() - getY())/getDistanceToAnt(a)) ;
+    } 
+    
+    
+    /**
+     * Gives a vector in the direction of Sugar s.
+     * @param s Sugar we want the direction to.
+     * @return a Vector in the direction of Sugar s.
+     */
+    
+      public Vector getDirectionToSugar(Sugar s) {
+        return new Vector((s.getX() - getX())/(getDistanceToSugar(s)) ,(s.getY() - getY())/getDistanceToSugar(s));
+    }
+    
+    /**
+     * Gives a vector in the direction of Spider s.
+     * @param s Spider we want the direction to.
+     * @return a Vector in the direction of Spider s.
+     */
+    public Vector getDirectionToSpider(Spider s) {
+        return new Vector((s.getX() - getX())/(getDistanceToSpider(s)) ,(s.getY() - getY())/getDistanceToSpider(s));
+    } 
+    
+    public String getCreator(){
+        return "Unknown";
+    }
+
+    public final double getAcceleration(){
+        return 40;
+    }
+    public final double getVelocity(){
+        return 0.85;
+    }
+
+
+
+
+     
+}

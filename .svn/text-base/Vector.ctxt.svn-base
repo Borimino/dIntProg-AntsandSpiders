@@ -1,0 +1,20 @@
+#BlueJ class context
+comment0.params=x\ y
+comment0.target=Vector(double,\ double)
+comment0.text=\nContructor\ for\ the\ Vector\ class.\ \n@param\ x\ x\ coordinate.\n@param\ y\ y\ coordinate.\n\n
+comment1.target=Vector()
+comment2.target=double\ getX()
+comment2.text=\nGet\ the\ x\ coordinate\ of\ the\ vector\n@return\ x\ coordinate\n\n
+comment3.target=double\ getY()
+comment3.text=\nGet\ the\ y\ coordinate\ of\ the\ vector\n@return\ y\ coordinate.\n\n
+comment4.params=v
+comment4.target=Vector\ add(Vector)
+comment5.params=v
+comment5.target=Vector\ sub(Vector)
+comment6.params=m
+comment6.target=Vector\ scale(double)
+comment7.target=Vector\ normalize()
+comment7.text=\nReturn\ a\ new\ version\ of\ this\ vector\ with\ length\ 1.\nI.e.\ a\ normalized\ version\ of\ this\ vector\n\n
+comment8.target=double\ length()
+comment8.text=\nGet\ the\ length\ of\ the\ vector\n@return\ length\ of\ the\ vector\n\n
+numComments=9

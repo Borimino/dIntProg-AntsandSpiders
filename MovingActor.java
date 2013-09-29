@@ -1,0 +1,181 @@
+
+
+import greenfoot.*; 
+import java.util.*;
+/**
+ * An abstract class, implementing the basic needs for a moving actor such as movement and rotation of icon.
+ * 
+ * @author Jakob Funder
+ * @version 25/09/2008
+ */
+
+public abstract class MovingActor extends Actor
+{
+    private double posX, posY; // The is needed because the MovingActor might move slower than one square pr. round.
+    private double mouseX, mouseY; // The last known position of the mouse
+    private double speed; // The speed of the MovingActor.
+    private Vector v; // Direction of the velocity of the MovingActor.
+    
+    /**
+     * Constructor for the MovingActor class.
+     * Sets the heading to (1,0) and speed = 2;
+     */
+    public MovingActor() {
+        this.v = new Vector(1,0);
+        this.speed = 2;
+    }
+ 
+    /**
+     * Constructor for the MovingActor class.
+     * @param v the initial heading of the MovingActor.
+     * @param speed the initial speed of the MovingActor.
+     */
+    public MovingActor(Vector v, double speed) {
+        this.v = v;
+        this.speed = speed;
+    }
+   
+    /**
+     * Acting method called by greenfoot.
+     * First we adjust the velocity using the forces that effect the MovingActor,
+     * then we rotate the image of the MovingActor towards the heading 
+     * and lastly we move the MovingActor.
+     */
+    public void act() { 
+            adjustVelocity();
+            rotateImage();
+            move();
+    }
+
+    /**
+     * Adjust the velocity according to the forces effecting the MovingActor.
+     * 
+     */        
+    protected final void adjustVelocity() {
+        Vector a = getForces(); 
+        double acceleration = getAcceleration();
+        v = new Vector(v.getX() + a.getX()*(acceleration/100), v.getY() + a.getY()*(acceleration/100));
+        v = v.normalize().scale(getVelocity()); 
+    }
+    
+    public double getVelocity(){
+        return 1;
+    }
+    public double getAcceleration(){
+        return 20;
+    }
+    
+    /**
+     * Rotate the image towards vector v
+     * @param v Vector to rotate towards
+     */
+    protected void rotateImage() {
+        Vector rv = v.normalize(); // Need a normalized vector
+        int rotation = (int) ((Math.acos(rv.getX()))*57.3);
+        if (rv.getY() < 0) rotation = - rotation;
+        setRotation(rotation);
+    }
+    
+     /**
+     * Returns the direction of the MovingActor
+     * @return the direction of the MovingActor
+     */
+    protected Vector getDirection() {
+        return v;
+    }
+    
+    /** 
+     * Find the forces that effects the MovingActor.    
+     * @return a vector pointing in the direction of the force.
+     * 
+     */
+    public Vector getForces() {
+        return new Vector(0,0); // Dummy implementation
+    }
+    
+    /**
+     * Move the MovingActor towards the velocity vector.
+     * 
+     */
+    protected void move() {
+        posX += v.getX()*speed;
+        posY += v.getY()*speed;
+        
+        setLocation((int) (posX), (int) (posY));
+    }
+    /**
+     * This method is called when the MovingActor is first added to the world. 
+     * We need to save the current position as double to handle subpixel movement.
+     */
+    protected final void addedToWorld(World world) {
+        posX = getX();
+        posY = getY();
+    }
+    
+    /**
+     * The distance to the top wall of the world.
+     * @return distance to top wall.
+     */
+    protected double distanceToTopWall() {
+        return Math.max(getY(),0.001); // avoid division by zero
+    }
+    
+    /**
+     * The distance to the left wall of the world.
+     * @return distance to left wall.
+     */
+    protected double distanceToLeftWall() {
+        return Math.max(getX(),0.001); // avoid division by zero
+    }
+    
+    /**
+     * The distance to the bottom wall of the world.
+     * @return distance to bottom wall.
+     */
+    protected double distanceToBottomWall() {
+        return Math.max(getWorld().getHeight() - getY(), 0.001); // avoid division by zero
+    }
+    
+    /**
+     * The distance to the right wall of the world.
+     * @return distance to right wall.
+     */
+    protected double distanceToRightWall() {
+        return Math.max(getWorld().getWidth() - getX(),0.001); // avoid division by zero
+    }
+    
+    /**
+     * The distance to the Mouse
+     * @return distance to the Mouse
+     */
+    protected double distanceToMouse() {
+        double x; double y;
+        if (Greenfoot.getMouseInfo() == null) {
+            x = mouseX;
+            y = mouseY;
+        } else {
+           x = mouseX = Greenfoot.getMouseInfo().getX();
+           y = mouseY = Greenfoot.getMouseInfo().getY();
+        }   
+        Vector mouse = new Vector(0,0);
+        return Math.max(Math.sqrt(Math.pow(getX() - x, 2) + Math.pow(getY() - y, 2)),0.001); // avoid division by zero
+
+    }
+    
+    /**
+     * The direction of the Mouse
+     * @return the direction of the Mouse.
+     */
+    protected Vector directionOfMouse() {
+        double x; double y;
+        if (Greenfoot.getMouseInfo() == null) {
+            x = mouseX;
+            y = mouseY;
+        } else {
+            x = mouseX = Greenfoot.getMouseInfo().getX();
+            y = mouseY = Greenfoot.getMouseInfo().getY();
+        }
+        return new Vector((x - getX())/(distanceToMouse()) ,(y - getY())/distanceToMouse());
+    }
+   
+}

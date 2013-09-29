@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.target=Vector\ getForces()
+comment0.text=\nFind\ out\ which\ forces\ are\ effecting\ the\ ant.\n(1)\ Avoid\ running\ into\ the\ wall.\nAdd\ as\ your\ progress...\n\n\n
+comment1.target=Vector\ avoidWall()
+comment1.text=\nAvoid\ moving\ into\ any\ of\ the\ walls.\nWalls\ that\ a\ close\ should\ be\ avoided\ more\ rapidly\ than\ walls\ far\ away.\n@return\ a\ vector\ that\ points\ away\ from\ the\ nearest\ walls.\n\n
+comment2.target=String\ getCreator()
+numComments=3

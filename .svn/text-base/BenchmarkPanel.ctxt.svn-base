@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.params=totalRuns
+comment0.target=BenchmarkPanel(int)
+comment1.target=void\ act()
+comment2.params=run\ round
+comment2.target=void\ setProgress(int,\ int)
+numComments=3

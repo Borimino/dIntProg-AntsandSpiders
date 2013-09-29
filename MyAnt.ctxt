@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.params=
+comment0.target=Vector\ getForces()
+comment0.text=\n\ Find\ out\ which\ forces\ are\ effecting\ the\ ant.\n\ (1)\ Avoid\ running\ into\ the\ wall.\n\ Add\ as\ your\ progress...\n\ \n\ @return\ The\ total\ of\ the\ forces\n\ \n
+comment1.params=
+comment1.target=Vector\ avoidWall()
+comment1.text=\n\ Avoid\ moving\ into\ any\ of\ the\ walls.\n\ Walls\ that\ a\ close\ should\ be\ avoided\ more\ rapidly\ than\ walls\ far\ away.\n\ \n\ @return\ a\ vector\ that\ points\ away\ from\ the\ nearest\ walls.\n\ \n
+comment2.params=
+comment2.target=Vector\ avoidAnt()
+comment3.params=
+comment3.target=Vector\ findSugar()
+comment4.params=
+comment4.target=Vector\ avoidSpider()
+comment5.params=
+comment5.target=java.lang.String\ getCreator()
+numComments=6
