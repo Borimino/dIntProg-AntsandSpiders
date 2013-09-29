@@ -8,40 +8,36 @@ import java.util.*;
 
 public class MyAnt extends Ant
 {
-    
-    private double wallFactor = 35;
+
+    private double wallFactor = 1000;
     private double antFactor = 25;
     private double sugarFactor = 20;
-    private double spiderFactor = 30;
+    private double spiderFactor = 100;
     private double spiderFactor2 = 0;
-    private int wallDistance = 50;
-    private int antDistance = 100;
+    private int wallDistance = 10;
+    private int antDistance = 10;
     private int sugarDistance = 700;
-    private int spiderDistance = 700;
+    private int spiderDistance = 100;
     private int spiderDistance2 = 700;
-    
+
     public MyAnt()
     {
         super();
-        if(Greenfoot.getRandomNumber(3) == 0)
+        if(Greenfoot.getRandomNumber(100) <= 25)
         {
-            wallFactor = 35;
-            antFactor = 25;
-            sugarFactor = 0;
-            spiderFactor = 30;
-            spiderFactor2 = 30;
-            wallDistance = 50;
-            antDistance = 100;
-            sugarDistance = 0;
-            spiderDistance = 200;
-            spiderDistance2 = 300;
+            this.sugarFactor = -50;
+            this.spiderFactor = 150;
+            this.spiderFactor2 = 150;
+            this.sugarDistance = 700;
+            this.spiderDistance = 25;
+            this.spiderDistance2 = 50;
+            this.wallDistance = spiderDistance*2;
+            wallFactor = wallFactor*2;
         }
     }
 
     /**
      * Find out which forces are effecting the ant.
-     * (1) Avoid running into the wall.
-     * Add as your progress...
      * 
      * @return The total of the forces
      * 
@@ -53,6 +49,7 @@ public class MyAnt extends Ant
         f = f.add(avoidAnt());
         f = f.add(findSugar());
         f = f.add(avoidSpider());
+        f = f.add(findSpider());
         return f;
     }
 
@@ -68,16 +65,24 @@ public class MyAnt extends Ant
     {
         Vector wallV = new Vector();
         if(distanceToTopWall() <= wallDistance)
-            wallV = wallV.add(new Vector(0, 1/distanceToTopWall())); // avoid top wall 
+        {
+            wallV = wallV.add(new Vector(0, 1/distanceToTopWall()));
+        }
 
         if(distanceToBottomWall() <= wallDistance)
-            wallV = wallV.add(new Vector(0, -1/distanceToBottomWall()));// avoid bottom wall, not yet implemented
+        {
+            wallV = wallV.add(new Vector(0, -1/distanceToBottomWall()));
+        }
 
         if(distanceToLeftWall() <= wallDistance)
-            wallV = wallV.add(new Vector(1/distanceToLeftWall(), 0));// avoid left wall, not yet implemented
+        {
+            wallV = wallV.add(new Vector(1/distanceToLeftWall(), 0));
+        }
 
         if(distanceToRightWall() <= wallDistance)
-            wallV = wallV.add(new Vector(-1/distanceToRightWall(),0)); // avoid right wall
+        {
+            wallV = wallV.add(new Vector(-1/distanceToRightWall(),0));
+        }
 
         return wallV.scale(wallFactor);
     }   
@@ -103,19 +108,19 @@ public class MyAnt extends Ant
         {
             sugarV = sugarV.add(getDirectionToSugar(s).scale(sugarFactor/getDistanceToSugar(s)));
         }
-        return sugarV.scale(sugarFactor);
+        return sugarV.scale(Math.abs(sugarFactor));
     }
-    
+
     private Vector findSpider()
     {
         Vector spiderV = new Vector();
-        
+
         List<Spider> spiders = getSpider(700);
         for(Spider s : spiders)
         {
             if(getDistanceToSpider(s) >= spiderDistance2)
             {
-                spiderV = spiderV.add(getDirectionToSpider(s).scale(spiderFactor2/getDistanceToSpider(s)));
+                spiderV = spiderV.add(getDirectionToSpider(s).scale(spiderFactor2*getDistanceToSpider(s)));
             }
         }
         return spiderV.scale(spiderFactor2);
