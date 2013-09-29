@@ -15,7 +15,7 @@ public class MyAnt extends Ant
     private double spiderFactor = 100;
     private double spiderFactor2 = 0;
     private int wallDistance = 10;
-    private int antDistance = 10;
+    private int antDistance = 8;
     private int sugarDistance = 700;
     private int spiderDistance = 100;
     private int spiderDistance2 = 700;
@@ -25,13 +25,14 @@ public class MyAnt extends Ant
         super();
         if(Greenfoot.getRandomNumber(100) <= 25)
         {
-            this.sugarFactor = -50;
-            this.spiderFactor = 150;
-            this.spiderFactor2 = 150;
-            this.sugarDistance = 700;
-            this.spiderDistance = 25;
-            this.spiderDistance2 = 50;
-            this.wallDistance = spiderDistance*2;
+            sugarFactor = -50;
+            spiderFactor = 150;
+            spiderFactor2 = 150;
+            sugarDistance = 700;
+            spiderDistance = 25;
+            spiderDistance2 = 50;
+            antDistance = 10;
+            wallDistance = spiderDistance*3;
             wallFactor = wallFactor*2;
         }
     }
@@ -102,7 +103,7 @@ public class MyAnt extends Ant
     private Vector findSugar()
     {
         Vector sugarV = new Vector();
-
+        
         List<Sugar> sugars = getSugar(sugarDistance);
         for(Sugar s : sugars)
         {
