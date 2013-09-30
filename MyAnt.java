@@ -29,10 +29,11 @@ public class MyAnt extends Ant
     public MyAnt()
     {
         super();
-        /*if(Greenfoot.getRandomNumber(100) <= 25)
+        MyAnt.numLurers = 0;
+        if(Greenfoot.getRandomNumber(100) <= 25)
         {
             setLurer();
-        }*/
+        }
     }
     
     private void setWorker()
@@ -65,7 +66,7 @@ public class MyAnt extends Ant
         spiderDistance = 25;
         spiderDistance2 = 50;
         antDistance = 10;
-        wallDistance = spiderDistance*3;
+        wallDistance = spiderDistance*5;
         wallFactor = 2000;
         
         isLurer = true;
@@ -157,13 +158,13 @@ public class MyAnt extends Ant
             {
                 spiderV = spiderV.add(getDirectionToSpider(s).scale(spiderFactor2*getDistanceToSpider(s)));
             }
-            if(getDistanceToSpider(s) <= changeDistance && MyAnt.numLurers <= MyAnt.maxLurers)
+            /*if(getDistanceToSpider(s) <= changeDistance && MyAnt.numLurers < MyAnt.maxLurers)
             {
                 setLurer();
             } else
             {
                 setWorker();
-            }
+            }*/
         }
         return spiderV.scale(spiderFactor2);
     }
