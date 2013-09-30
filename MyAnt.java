@@ -100,6 +100,7 @@ public class MyAnt extends Ant
         f = f.add(avoidWall());
         f = f.add(avoidAnt());
         f = f.add(findSugar());
+        f = f.add(findEmptySugar());
         f = f.add(avoidSpider());
         f = f.add(findSpider());
         return f;
