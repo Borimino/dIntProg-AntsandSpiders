@@ -9,16 +9,17 @@ import java.util.*;
 public class MyAnt extends Ant
 {
 
-    private double wallFactor = 1000;
-    private double antFactor = 25;
-    private double sugarFactor = 20;
-    private double spiderFactor = 100;
-    private double spiderFactor2 = 0;
-    private int wallDistance = 10;
-    private int antDistance = 8;
-    private int sugarDistance = 700;
-    private int spiderDistance = 100;
-    private int spiderDistance2 = 700;
+    private double wallFactor;
+    private double antFactor = 60;
+    private double sugarFactor;
+    private double emptySugarFactor;
+    private double spiderFactor;
+    private double spiderFactor2;
+    private int wallDistance;
+    private int antDistance;
+    private int sugarDistance;
+    private int spiderDistance;
+    private int spiderDistance2;
     private int changeDistance = 250;
 
     private boolean isLurer = false;
@@ -40,9 +41,12 @@ public class MyAnt extends Ant
         }
         number = MyAnt.numAnts;
         MyAnt.numAnts++;
-        if(Greenfoot.getRandomNumber(100) <= 25)
+        if(number <= 5)
         {
             setLurer();
+        } else
+        {
+            setWorker();
         }
     }
 
@@ -52,13 +56,14 @@ public class MyAnt extends Ant
             MyAnt.numLurers--;
 
         sugarFactor = 20;
-        spiderFactor = 100;
+        emptySugarFactor = 75;
+        spiderFactor = 200;
         spiderFactor2 = 0;
         sugarDistance = 700;
-        spiderDistance = 100;
+        spiderDistance = 50;
         spiderDistance2 = 700;
         antDistance = 8;
-        wallDistance = 10;
+        wallDistance = 25;
         wallFactor = 1000;
 
         isLurer = false;
@@ -70,6 +75,7 @@ public class MyAnt extends Ant
             MyAnt.numLurers++;
 
         sugarFactor = -50;
+        emptySugarFactor = 0;
         spiderFactor = 150;
         spiderFactor2 = 150;
         sugarDistance = 700;
@@ -136,7 +142,7 @@ public class MyAnt extends Ant
     private Vector avoidAnt()
     {
         Vector antV = new Vector();
-
+        
         List<Ant> ants = getAnts(antDistance);
         for(Ant a : ants)
         {
@@ -154,52 +160,34 @@ public class MyAnt extends Ant
     private Vector findSugar()
     {
         Vector sugarV = new Vector();
-
-        for(int j = 0; j < 5; j++)
-        {
-            //this.sugars[j][number] = 0;
-        }
-
-        int i = 0;
+        
         List<Sugar> sugars = getSugar(sugarDistance);
         for(Sugar s : sugars)
         {
-            if(this.sugars[i][0] == 0)
-            {
-                this.sugars[i][0] = s.getX();
-                this.sugars[i][1] = s.getY();
-            }
-
-            double dist = getDistanceToSugar(s);
-            for(int j = 0; j < 5; j++)
-            {
-                if(this.sugars[j][0] == s.getX() && this.sugars[j][1] == s.getY())
-                {
-                    int sum = 0;
-                    for(int k = 2; k < 22; k++)
-                    {
-                        sum += this.sugars[j][k];
-                    }
-                    //System.out.println(j + " ; " + sum);
-                    if(sum <= 5)
-                    {
-                        sugarV = sugarV.add(getDirectionToSugar(s).scale(sugarFactor/dist));
-                        if(number == 1) System.out.println(s.getX() + ";" + s.getY());
-                        if(dist <= 50/2)
-                        {
-                            this.sugars[j][number+2] = 1;
-                            //System.out.println(j + " ; " + "Sets");
-                        }
-                    } else
-                    {
-                        this.sugars[j][number+2] = 0;
-                        if(number == 1) System.out.println("Too many");
-                    }
-                }
-            }
-            i++;
+            sugarV = sugarV.add(getDirectionToSugar(s).scale(sugarFactor/getDistanceToSugar(s)));
         }
         return sugarV.scale(Math.abs(sugarFactor));
+    }
+    
+    private Vector findEmptySugar()
+    {
+        Vector sugarV = new Vector();
+        
+        List<Sugar> sugars = getSugar(sugarDistance);
+        for(Sugar s : sugars)
+        {
+            Vector sV = getDirectionToSugar(s);
+            List<Ant> ants = getAnts(sugarDistance);
+            for(Ant a : ants)
+            {
+                Vector aV = getDirectionToAnt(a);
+                if(!(Math.abs(aV.getX()-sV.getX()) <= 25 && Math.abs(aV.getY()-sV.getY()) <= 25))
+                {
+                    sugarV = sugarV.add(sV.scale(emptySugarFactor/getDistanceToSugar(s)));
+                }
+            }
+        }
+        return sugarV.scale(Math.abs(emptySugarFactor));
     }
 
     private Vector findSpider()
