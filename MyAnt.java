@@ -9,14 +9,14 @@ import java.util.*;
 public class MyAnt extends Ant
 {
  
-    private double wallFactor = 35;
-    private double antFactor = 25;
+    private double wallFactor = 1000;
+    private double antFactor = 60;
     private double sugarFactor = 20;
-    private double spiderFactor = 30;
-    private int wallDistance = 50;
-    private int antDistance = 100;
+    private double spiderFactor = 200;
+    private int wallDistance = 100;
+    private int antDistance = 8;
     private int sugarDistance = 700;
-    private int spiderDistance = 700;
+    private int spiderDistance = 50;
 
      /**
      * Find out which forces are effecting the ant.
