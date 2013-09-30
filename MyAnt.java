@@ -183,7 +183,7 @@ public class MyAnt extends Ant
 
     public String getCreator()
     {
-        return "201304194";
+        return "Markus Andreassen 201304194";
     }
 
 }   
