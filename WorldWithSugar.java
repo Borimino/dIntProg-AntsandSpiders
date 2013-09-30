@@ -9,7 +9,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class WorldWithSugar extends World
 {
-    private static final int numberOfAnts = 10;
+    private static final int numberOfAnts = 20;
     private static final int pcsOfSugar = 5;
 
     public WorldWithSugar()

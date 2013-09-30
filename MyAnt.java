@@ -20,27 +20,37 @@ public class MyAnt extends Ant
     private int spiderDistance = 100;
     private int spiderDistance2 = 700;
     private int changeDistance = 250;
-    
+
     private boolean isLurer = false;
-    
+    private int number;
+
     private static final int maxLurers = 8;
     private static int numLurers = 0;
+    private static int numAnts = 0;
+    private static int[][] sugars = new int[5][22];
 
     public MyAnt()
     {
         super();
         MyAnt.numLurers = 0;
+        if(MyAnt.numAnts >= 20)
+        {
+            MyAnt.numAnts = 0;
+            this.sugars = new int[5][22];
+        }
+        number = MyAnt.numAnts;
+        MyAnt.numAnts++;
         if(Greenfoot.getRandomNumber(100) <= 25)
         {
             setLurer();
         }
     }
-    
+
     private void setWorker()
     {
         if(isLurer)
             MyAnt.numLurers--;
-        
+
         sugarFactor = 20;
         spiderFactor = 100;
         spiderFactor2 = 0;
@@ -50,15 +60,15 @@ public class MyAnt extends Ant
         antDistance = 8;
         wallDistance = 10;
         wallFactor = 1000;
-        
+
         isLurer = false;
     }
-    
+
     private void setLurer()
     {
         if(!isLurer)
             MyAnt.numLurers++;
-        
+
         sugarFactor = -50;
         spiderFactor = 150;
         spiderFactor2 = 150;
@@ -68,7 +78,7 @@ public class MyAnt extends Ant
         antDistance = 10;
         wallDistance = spiderDistance*5;
         wallFactor = 2000;
-        
+
         isLurer = true;
     }
 
@@ -135,14 +145,59 @@ public class MyAnt extends Ant
         return antV.scale(antFactor);
     }
 
+    private int numAnts(int dist)
+    {
+        List<Ant> ants = getAnts(dist);
+        return ants.size();
+    }
+
     private Vector findSugar()
     {
         Vector sugarV = new Vector();
-        
+
+        for(int j = 0; j < 5; j++)
+        {
+            //this.sugars[j][number] = 0;
+        }
+
+        int i = 0;
         List<Sugar> sugars = getSugar(sugarDistance);
         for(Sugar s : sugars)
         {
-            sugarV = sugarV.add(getDirectionToSugar(s).scale(sugarFactor/getDistanceToSugar(s)));
+            if(this.sugars[i][0] == 0)
+            {
+                this.sugars[i][0] = s.getX();
+                this.sugars[i][1] = s.getY();
+            }
+
+            double dist = getDistanceToSugar(s);
+            for(int j = 0; j < 5; j++)
+            {
+                if(this.sugars[j][0] == s.getX() && this.sugars[j][1] == s.getY())
+                {
+                    int sum = 0;
+                    for(int k = 2; k < 22; k++)
+                    {
+                        sum += this.sugars[j][k];
+                    }
+                    //System.out.println(j + " ; " + sum);
+                    if(sum <= 5)
+                    {
+                        sugarV = sugarV.add(getDirectionToSugar(s).scale(sugarFactor/dist));
+                        if(number == 1) System.out.println(s.getX() + ";" + s.getY());
+                        if(dist <= 50/2)
+                        {
+                            this.sugars[j][number+2] = 1;
+                            //System.out.println(j + " ; " + "Sets");
+                        }
+                    } else
+                    {
+                        this.sugars[j][number+2] = 0;
+                        if(number == 1) System.out.println("Too many");
+                    }
+                }
+            }
+            i++;
         }
         return sugarV.scale(Math.abs(sugarFactor));
     }
@@ -160,10 +215,10 @@ public class MyAnt extends Ant
             }
             /*if(getDistanceToSpider(s) <= changeDistance && MyAnt.numLurers < MyAnt.maxLurers)
             {
-                setLurer();
+            setLurer();
             } else
             {
-                setWorker();
+            setWorker();
             }*/
         }
         return spiderV.scale(spiderFactor2);
