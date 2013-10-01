@@ -103,8 +103,18 @@ public class MyAnt extends Ant
         List<Sugar> sugars = getSugar(sugarDistance);
         for(Sugar s : sugars)
         {
-            sugarV = sugarV.add(getDirectionToSugar(s).scale(sugarFactor/getDistanceToSugar(s)));
+            //if(getObjectsAtOffset(getX()-s.getX(), getY()-s.getY(), Ant.class) == null)
+                sugarV = sugarV.add(getDirectionToSugar(s).scale(sugarFactor/getDistanceToSugar(s)));
         }
+
+        /*
+        if(sugarV.getX() == 0 && sugarV.getY() == 0)
+        {
+            for(Sugar s : sugars)
+            {
+                sugarV = sugarV.add(getDirectionToSugar(s).scale(sugarFactor/getDistanceToSugar(s)));
+            }
+        }*/
         return sugarV.scale(sugarFactor);
     }
 
