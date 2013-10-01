@@ -1,18 +1,22 @@
 #BlueJ class context
 comment0.params=
 comment0.target=Vector\ getForces()
-comment0.text=\n\ Find\ out\ which\ forces\ are\ effecting\ the\ ant.\n\ (1)\ Avoid\ running\ into\ the\ wall.\n\ Add\ as\ your\ progress...\n\ \n\ @return\ The\ total\ of\ the\ forces\n\ \n
+comment0.text=\n\ Find\ out\ which\ forces\ are\ effecting\ the\ ant.\n\ \n\ @return\ The\ total\ of\ the\ forces\n\ \n
 comment1.params=
 comment1.target=Vector\ avoidWall()
-comment1.text=\n\ Avoid\ moving\ into\ any\ of\ the\ walls.\n\ Walls\ that\ a\ close\ should\ be\ avoided\ more\ rapidly\ than\ walls\ far\ away.\n\ \n\ @return\ a\ vector\ that\ points\ away\ from\ the\ nearest\ walls.\n\ \n
+comment1.text=\n\ Avoid\ moving\ into\ any\ of\ the\ walls.\n\ Only\ avoids\ the\ walls\ that\ are\ closer\ than\ <i>wallDistance</i>.\n\ \n\ @return\ A\ vector\ that\ points\ away\ from\ the\ nearest\ walls.\n\ \n
 comment2.params=
 comment2.target=Vector\ avoidAnt()
+comment2.text=\n\ Avoid\ moving\ into\ any\ other\ ants.\n\ Only\ avoids\ ants\ that\ are\ closer\ than\ <i>antDistance</i>.\n\ \n\ @return\ A\ vector\ that\ points\ away\ from\ all\ ants\ within\ range\n\ \n
 comment3.params=
 comment3.target=Vector\ findSugar()
+comment3.text=\n\ Move\ towards\ the\ nearest\ sugar.\n\ Only\ considers\ sugars\ within\ <i>sugarDistance</i>.\n\ \n\ @return\ A\ vector\ that\ points\ towards\ sugar\n\ \n
 comment4.params=
 comment4.target=Vector\ avoidSpider()
+comment4.text=\n\ Avoid\ the\ spider.\n\ Only\ considers\ the\ spider\ if\ it\ is\ within\ <i>spiderDistance</i>.\n\ \n\ @return\ A\ vector\ that\ points\ away\ from\ the\ spider\n\ \n
 comment5.params=
 comment5.target=void\ setWallDistance()
+comment5.text=\n\ Sets\ the\ <i>wallDistance</i>\ depending\ on\ the\ closenes\ of\ the\ spider.\n
 comment6.params=
 comment6.target=java.lang.String\ getCreator()
 numComments=7
