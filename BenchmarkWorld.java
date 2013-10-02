@@ -115,7 +115,7 @@ public class BenchmarkWorld  extends World
             System.err.println("Fejl opstod i kodningen af data");
         }
         
-        String reply = post("http://cs.au.dk/~mic/dIntProg/e12/ant.php", data);
+        String reply = post("http://cs.au.dk/~mic/dIntProg/e13/ant.php", data);
         System.out.println(reply);
         
     }

@@ -23,9 +23,11 @@ public class MyAnt extends Ant
     private int wallDistanceMin = 15;
     private int wallDistanceMax = 38;
     private int antDistance = 8;
-    private int sugarDistance = 700;
+    private int sugarDistance = 100000;
     private int spiderDistance = 25;
     private int spiderDistance2 = 100;
+
+    private int distAntSugar = 50;
 
     /**
      * Find out which forces are effecting the ant.
@@ -39,7 +41,7 @@ public class MyAnt extends Ant
         setWallDistance();    
         f = f.add(avoidWall());
         f = f.add(avoidAnt());
-        f = f.add(findSugar());
+        f = f.add(findSugar2());
         f = f.add(avoidSpider());
         return f;
     }
@@ -103,19 +105,86 @@ public class MyAnt extends Ant
         List<Sugar> sugars = getSugar(sugarDistance);
         for(Sugar s : sugars)
         {
-            //if(getObjectsAtOffset(getX()-s.getX(), getY()-s.getY(), Ant.class) == null)
+            Vector sDist = getDirectionToSugar(s);
+            boolean use = true;
+            for(Ant a : getAnts(sugarDistance))
+            {
+                if(a.equals(this))
+                {
+                    continue;
+                }
+                Vector aDist = getDirectionToAnt(a);
+                if(Math.abs(sDist.getX()-aDist.getX()) <= 25 && Math.abs(sDist.getY()-aDist.getY()) <= 25)
+                {
+                    use = false;
+                    //System.out.println("test");
+                }
+            }
+            if(use)
+            {
                 sugarV = sugarV.add(getDirectionToSugar(s).scale(sugarFactor/getDistanceToSugar(s)));
+                System.out.println("test2");
+            }
         }
 
-        /*
         if(sugarV.getX() == 0 && sugarV.getY() == 0)
         {
             for(Sugar s : sugars)
             {
                 sugarV = sugarV.add(getDirectionToSugar(s).scale(sugarFactor/getDistanceToSugar(s)));
             }
-        }*/
+        }
         return sugarV.scale(sugarFactor);
+    }
+
+    private Vector findSugar2()
+    {
+        //Vector sugarV = new Vector();
+
+        Sugar closest = null;
+        double dist = 10000;
+
+        List<Ant> ants = getAnts(sugarDistance);
+        List<Sugar> sugars = getSugar(sugarDistance);
+        for(Sugar s : sugars)
+        {
+            if(getDistanceToSugar(s) < dist)
+            {
+                boolean use = true;
+                for(Ant a : ants)
+                {
+                    if(a.getDistanceToSugar(s) < distAntSugar)
+                    {
+                        use = false;
+                    }
+                }
+                if(use)
+                {
+                    dist = getDistanceToSugar(s);
+                    closest = s;
+                }
+            }
+        }
+
+        if(closest == null)
+        {
+            for(Sugar s : sugars)
+            {
+                if(getDistanceToSugar(s) < dist)
+                {
+                    dist = getDistanceToSugar(s);
+                    closest = s;
+                }
+            }
+        }
+
+        if(closest != null)
+        {
+            return getDirectionToSugar(closest).scale(sugarFactor);
+        } else
+        {
+            return new Vector();
+        }
     }
 
     /**
